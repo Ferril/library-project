@@ -12,12 +12,36 @@ class BookAPIView(APIView):
         serializer = BookSerializer(books, many=True)
         return Response({"books": serializer.data})
 
+    def post(self, request):
+        book = request.data.get('book')
+        serializer = BookSerializer(data=book)
+        if serializer.is_valid(raise_exception=True):
+            book_saved = serializer.save()
+        return Response(
+            {
+                "success": "Book '{}' added successfully".format(
+                    book_saved.title
+                )
+            }
+        )
+
 
 class ReaderAPIView(APIView):
 
     def get(self, request):
         readers = Reader.objects.all()
-        # list_of_books = [reader.list_of_books for reader in readers]
-        # print(list_of_books)
         serializer = ReaderSerializer(readers, many=True)
         return Response({"readers": serializer.data})
+
+    def post(self, request):
+        reader = request.data.get('reader')
+        serializer = ReaderSerializer(data=reader)
+        if serializer.is_valid(raise_exception=True):
+            reader_saved = serializer.save()
+        return Response(
+            {
+                "success": "reader '{}' added successfully".format(
+                    reader_saved.title
+                )
+            }
+        )
