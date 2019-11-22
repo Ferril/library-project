@@ -10,7 +10,7 @@ class BookAPIView(APIView):
     def get(self, request):
         books = Book.objects.all()
         serializer = BookSerializer(books, many=True)
-        return Response({"books": serializer.data})
+        return Response({'books': serializer.data})
 
     def post(self, request):
         book = request.data.get('book')
@@ -19,8 +19,8 @@ class BookAPIView(APIView):
             book_saved = serializer.save()
         return Response(
             {
-                "success": "Book '{}' added successfully".format(
-                    book_saved.title
+                'success': 'Book \'{}\' added successfully'.format(
+                    book_saved.__str__()
                 )
             }
         )
@@ -31,7 +31,7 @@ class ReaderAPIView(APIView):
     def get(self, request):
         readers = Reader.objects.all()
         serializer = ReaderSerializer(readers, many=True)
-        return Response({"readers": serializer.data})
+        return Response({'readers': serializer.data})
 
     def post(self, request):
         reader = request.data.get('reader')
@@ -40,8 +40,8 @@ class ReaderAPIView(APIView):
             reader_saved = serializer.save()
         return Response(
             {
-                "success": "reader '{}' added successfully".format(
-                    reader_saved.title
+                'success': 'Reader {} added successfully'.format(
+                    reader_saved.__str__()
                 )
             }
         )
