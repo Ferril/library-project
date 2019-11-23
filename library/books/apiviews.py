@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
 from .models import Book, Reader
 from .serializers import BookSerializer, ReaderSerializer
@@ -19,10 +20,38 @@ class BookAPIView(APIView):
             book_saved = serializer.save()
         return Response(
             {
-                'success': 'Book \'{}\' added successfully'.format(
-                    book_saved.__str__()
+                'success': 'Book \'{book}\' added successfully'.format(
+                    book=book_saved.__str__()
                 )
-            }
+            },
+            status=201,
+        )
+
+    def put(self, request, title, author):
+        book = get_object_or_404(Book.objects.get(title=title, author=author))
+        book_upd = request.data.get('book')
+        serializer = BookSerializer(instance=book, data=book_upd, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            book_saved = serializer.save()
+        return Response(
+            {
+                'success': 'Book \'{book}\' updated successfully'.format(
+                    book=book_saved.__str__()
+                )
+            },
+            status=204,
+        )
+
+    def delete(self, request, title, author):
+        book = get_object_or_404(Book.objects.get(title=title, author=author))
+        book.delete()
+        return Response(
+            {
+                'success': 'Book \'\'{title}\' - {author}\' was deleted.'.format(  # NOQA
+                    title=title, author=author
+                )
+            },
+            status=204,
         )
 
 
@@ -40,8 +69,46 @@ class ReaderAPIView(APIView):
             reader_saved = serializer.save()
         return Response(
             {
-                'success': 'Reader {} added successfully'.format(
-                    reader_saved.__str__()
+                'success': 'Reader {reader} added successfully'.format(
+                    reader=reader_saved.__str__()
                 )
-            }
+            },
+            status=201,
+        )
+
+    def put(self, request, first_name, second_name):
+        reader = get_object_or_404(
+            Reader.objects.get(
+                first_name=first_name, second_name=second_name,
+            )
+        )
+        reader_upd = request.data.get('reader')
+        serializer = BookSerializer(
+            instance=reader, data=reader_upd, partial=True,
+        )
+        if serializer.is_valid(raise_exception=True):
+            reader_saved = serializer.save()
+        return Response(
+            {
+                'success': 'Reader {reader} updated successfully'.format(
+                    reader=reader_saved.__str__()
+                )
+            },
+            status=204,
+        )
+
+    def delete(self, request, first_name, second_name):
+        reader = get_object_or_404(
+            Reader.objects.get(
+                first_name=first_name, second_name=second_name,
+            )
+        )
+        reader.delete()
+        return Response(
+            {
+                'success': 'Reader {first_name} - {second_name} was deleted.'.format(  # NOQA
+                    first_name=first_name, second_name=second_name
+                )
+            },
+            status=204,
         )

@@ -11,6 +11,16 @@ class BookSerializer(serializers.Serializer):
     def create(self, validated_data):
         return Book.objects.create(**validated_data)
 
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title_upd', instance.title)
+        instance.author = validated_data.get('author_upd', instance.author)
+        instance.description = validated_data.get(
+            'description', instance.description,
+        )
+        instance.reader = validated_data.get('reader', instance.reader)
+        instance.save()
+        return instance
+
 
 class ReaderSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=100)
@@ -19,3 +29,13 @@ class ReaderSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return Reader.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get(
+            'first_name_upd', instance.first_name,
+        )
+        instance.last_name = validated_data.get(
+            'last_name_upd', instance.last_name,
+        )
+        instance.save()
+        return instance
