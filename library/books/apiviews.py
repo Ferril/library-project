@@ -27,10 +27,10 @@ class BookAPIView(APIView):
             status=201,
         )
 
-    def put(self, request, title, author):
-        book = get_object_or_404(Book.objects.get(title=title, author=author))
+    def put(self, request, id):
+        book = get_object_or_404(Book.objects.filter(id=id))
         book_upd = request.data.get('book')
-        serializer = BookSerializer(instance=book, data=book_upd, partial=True)
+        serializer = BookSerializer(instance=book, data=book_upd)
         if serializer.is_valid(raise_exception=True):
             book_saved = serializer.save()
         return Response(
@@ -42,8 +42,10 @@ class BookAPIView(APIView):
             status=204,
         )
 
-    def delete(self, request, title, author):
-        book = get_object_or_404(Book.objects.get(title=title, author=author))
+    def delete(self, request, id):
+        book = get_object_or_404(Book.objects.filter(id=id))
+        title = book.title
+        author = book.author
         book.delete()
         return Response(
             {
@@ -76,12 +78,8 @@ class ReaderAPIView(APIView):
             status=201,
         )
 
-    def put(self, request, first_name, second_name):
-        reader = get_object_or_404(
-            Reader.objects.get(
-                first_name=first_name, second_name=second_name,
-            )
-        )
+    def put(self, request, id):
+        reader = get_object_or_404(Reader.objects.filter(id=id))
         reader_upd = request.data.get('reader')
         serializer = BookSerializer(
             instance=reader, data=reader_upd, partial=True,
@@ -97,12 +95,10 @@ class ReaderAPIView(APIView):
             status=204,
         )
 
-    def delete(self, request, first_name, second_name):
-        reader = get_object_or_404(
-            Reader.objects.get(
-                first_name=first_name, second_name=second_name,
-            )
-        )
+    def delete(self, request, id):
+        reader = get_object_or_404(Reader.objects.filter(id=id))
+        first_name = reader.first_name
+        second_name = reader.second_name
         reader.delete()
         return Response(
             {
