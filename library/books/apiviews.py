@@ -92,18 +92,17 @@ class ReaderAPIView(APIView):
                     reader=reader_saved.__str__()
                 )
             },
-            status=204,
         )
 
     def delete(self, request, id):
         reader = get_object_or_404(Reader.objects.filter(id=id))
         first_name = reader.first_name
-        second_name = reader.second_name
+        last_name = reader.last_name
         reader.delete()
         return Response(
             {
-                'success': 'Reader {first_name} - {second_name} was deleted.'.format(  # NOQA
-                    first_name=first_name, second_name=second_name
+                'success': 'Reader {first_name} - {last_name} was deleted.'.format(  # NOQA
+                    first_name=first_name, last_name=last_name
                 )
             },
             status=204,

@@ -3,6 +3,7 @@ from .models import Book, Reader
 
 
 class BookSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
     title = serializers.CharField(max_length=100, required=True)
     author = serializers.CharField(max_length=100, required=True)
     description = serializers.CharField(required=False)
@@ -23,6 +24,7 @@ class BookSerializer(serializers.Serializer):
 
 
 class ReaderSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
     first_name = serializers.CharField(max_length=100)
     last_name = serializers.CharField(max_length=100)
     list_of_books = serializers.ListField(required=False)
