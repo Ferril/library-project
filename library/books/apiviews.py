@@ -1,17 +1,25 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.renderers import JSONRenderer
+from rest_framework_csv.renderers import CSVRenderer
 from django.shortcuts import get_object_or_404
 
 from .models import Book, Reader
 from .serializers import BookSerializer, ReaderSerializer
 
 
+class BookCSVRenderer (CSVRenderer):
+    header = ['id', 'title', 'author', 'description', 'reader']
+
+
 class BookAPIView(APIView):
+
+    renderer_classes = [JSONRenderer, BookCSVRenderer]
 
     def get(self, request):
         books = Book.objects.all()
         serializer = BookSerializer(books, many=True)
-        return Response({'books': serializer.data})
+        return Response(serializer.data)
 
     def post(self, request):
         book = request.data.get('book')
