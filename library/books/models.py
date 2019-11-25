@@ -10,7 +10,9 @@ class Book(models.Model):
     )
 
     def __str__(self):
-        return '\'{}\' - {}'.format(self.title, self.author)
+        return '\'{title}\' - {author}'.format(
+            title=self.title, author=self.author,
+        )
 
     class Meta:
         unique_together = ['title', 'author']
@@ -21,14 +23,17 @@ class Reader(models.Model):
     last_name = models.CharField(max_length=20)
 
     def __str__(self):
-        return '{} {}'.format(self.first_name, self.last_name)
+        return '{first_name} {last_name}'.format(
+            first_name=self.first_name, last_name=self.last_name,
+        )
 
     @property
     def list_of_books(self):
         books = Book.objects.filter(reader=self).values_list('title', 'author')
         return ['\'{title}\' - {author}'.format(
             title=title, author=author,
-        ) for title, author in [book for book in books]]
+        ) for title, author in list(books)
+        ]
 
     class Meta:
         unique_together = ['first_name', 'last_name']

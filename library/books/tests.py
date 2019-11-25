@@ -1,5 +1,5 @@
 from rest_framework.test import APITestCase
-from .models import Book, Reader
+from library.books.models import Book, Reader
 
 
 class BookAPITestCase(APITestCase):
@@ -25,7 +25,7 @@ class BookAPITestCase(APITestCase):
         Book.objects.bulk_create(
             [
                 Book(
-                    title='{}{}'.format(self.title, part),
+                    title='{title}{part}'.format(title=self.title, part=part),
                     author=self.author,
                     reader=self.reader,
                 )
@@ -60,9 +60,9 @@ class BookAPITestCase(APITestCase):
                 'title': new_title,
                 'author': book_to_update.author,
                 'reader': self.reader.id,
-            }
+            },
         }
-        url = '{}{}'.format(self.url, book_to_update.id)
+        url = '{url}{id}'.format(url=self.url, id=book_to_update.id)
         response = self.client.put(url, upd_data, format='json')
         updated_book = Book.objects.get(id=book_to_update.id)
 
@@ -75,7 +75,7 @@ class BookAPITestCase(APITestCase):
     def test_delete(self):
         book_to_delete = Book.objects.all().first()
         books_count = Book.objects.all().count()
-        url = '{}{}'.format(self.url, book_to_delete.id)
+        url = '{url}{id}'.format(url=self.url, id=book_to_delete.id)
         response = self.client.delete(url)
 
         self.assertEqual(response.status_code, 204)
@@ -110,11 +110,13 @@ class ReaderAPITestCase(APITestCase):
         Reader.objects.bulk_create(
             [
                 Reader(
-                    first_name='{}{}'.format(self.reader_first_name, num),
+                    first_name='{reader_first_name}{num}'.format(
+                        reader_first_name=self.reader_first_name, num=num,
+                    ),
                     last_name=self.reader_last_name,
                 )
                 for num in range(5)
-            ]
+            ],
         )
 
     def test_create(self):
@@ -145,7 +147,7 @@ class ReaderAPITestCase(APITestCase):
                 'last_name': self.reader_last_name,
             }
         }
-        url = '{}{}'.format(self.url, reader_to_update.id)
+        url = '{url}{id}'.format(url=self.url, id=reader_to_update.id)
         response = self.client.put(url, upd_data, format='json')
         updated_reader = Reader.objects.get(id=reader_to_update.id)
 
@@ -155,7 +157,7 @@ class ReaderAPITestCase(APITestCase):
     def test_delete(self):
         reader_to_delete = Reader.objects.all().first()
         readers_count = Reader.objects.all().count()
-        url = '{}{}'.format(self.url, reader_to_delete.id)
+        url = '{url}{id}'.format(url=self.url, id=reader_to_delete.id)
         response = self.client.delete(url)
 
         self.assertEqual(response.status_code, 204)

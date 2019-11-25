@@ -5,5 +5,5 @@ app_name = 'books'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('books.urls'))
+    path('', include('books.urls')),
 ]
