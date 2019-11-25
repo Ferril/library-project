@@ -37,4 +37,4 @@ Format - {'reader' : {'first_name': first_name, 'last_name': last_name}}
 
 ### Example
 
-`curl -X GET --header 'Accept: text/csv' 'http://localhost/api/books/'`
+`curl -X GET --header 'Accept: text/csv' 'http://localhost:8000/api/books/'`
