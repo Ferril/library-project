@@ -29,11 +29,11 @@ API url - `http://localhost:8000/api/`
 - `books/` - POST - adds a new book to db. 
 Format - {'book': {'title': book_title, 'author': book_author, 'description': (can be empty), 'reader': reader_id (can be empty)}}
 - `books/` - GET - returns a list of books and their assignment to readers. Use header 'Accept: text/csv' to return data in csv format, otherwise it returns json.
-- `books/id` - PUT, DELETE - changes/deletes selected book.
+- `books/book_id` - PUT, DELETE - changes/deletes selected book.
 - `readers/` - POST - adds a new reader to db. 
 Format - {'reader' : {'first_name': first_name, 'last_name': last_name}}
-- `readers` - GET - returns a list of readers in json format.
-- `readers/id` - PUT, DELETE - changes/deletes selected reader.
+- `readers/` - GET - returns a list of readers in json format.
+- `readers/reader_id` - PUT, DELETE - changes/deletes selected reader.
 
 ### Example
 
