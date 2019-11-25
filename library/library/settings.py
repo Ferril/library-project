@@ -2,12 +2,14 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'fq^lb!-(rov7*7aa%-y56@o#%ji0#29f=%p$3u7=+-6jsk!6lz'
+# SECRET_KEY = 'fq^lb!-(rov7*7aa%-y56@o#%ji0#29f=%p$3u7=+-6jsk!6lz'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = True
+# DEBUG = True
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = []
-
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
 
