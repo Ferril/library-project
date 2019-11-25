@@ -18,7 +18,13 @@ class BookSerializer(serializers.Serializer):
         instance.description = validated_data.get(
             'description', instance.description,
         )
-        instance.reader = validated_data.get('reader', instance.reader)
+        new_reader = validated_data.get('reader', 'none')
+        if new_reader == 'none':
+            instance.reader = None
+        elif new_reader:
+            new_reader_id = int(new_reader)
+            new_reader = Reader.objects.get(id=new_reader_id)
+            instance.reader = new_reader
         instance.save()
         return instance
 
