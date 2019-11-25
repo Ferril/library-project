@@ -1,4 +1,4 @@
-FROM python:3.7-alpine
+FROM python:3.7
 
 ARG APP_ENV
 
@@ -16,4 +16,8 @@ COPY ./poetry.lock pyproject.toml /library/
 RUN poetry config settings.virtualenvs.create false \
   && poetry install $(test "$DJANGO_ENV" == production && echo "--no-dev") --no-interaction --no-ansi
 
+COPY ./entrypoint.sh /library/entrypoint.sh
+
 COPY . /library
+
+ENTRYPOINT ["/library/entrypoint.sh"]
