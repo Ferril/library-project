@@ -89,7 +89,7 @@ class ReaderAPIView(APIView):
     def put(self, request, id):
         reader = get_object_or_404(Reader.objects.filter(id=id))
         reader_upd = request.data.get('reader')
-        serializer = BookSerializer(
+        serializer = ReaderSerializer(
             instance=reader, data=reader_upd, partial=True,
         )
         if serializer.is_valid(raise_exception=True):
@@ -100,6 +100,7 @@ class ReaderAPIView(APIView):
                     reader=reader_saved.__str__()
                 )
             },
+            status=204,
         )
 
     def delete(self, request, id):
