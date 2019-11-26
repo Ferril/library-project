@@ -1,5 +1,5 @@
 from rest_framework.test import APITestCase
-from library.books.models import Book, Reader
+from books.models import Book, Reader
 
 
 class BookAPITestCase(APITestCase):

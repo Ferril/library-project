@@ -4,8 +4,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework_csv.renderers import CSVRenderer
 from django.shortcuts import get_object_or_404
 
-from library.books.models import Book, Reader
-from library.books.serializers import BookSerializer, ReaderSerializer
+from books.models import Book, Reader
+from books.serializers import BookSerializer, ReaderSerializer
 
 
 class BookCSVRenderer (CSVRenderer):

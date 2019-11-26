@@ -1,5 +1,5 @@
 from django.urls import path
-from library.books.apiviews import BookAPIView, ReaderAPIView
+from books.apiviews import BookAPIView, ReaderAPIView
 
 
 urlpatterns = (
