@@ -62,7 +62,7 @@ class BookAPITestCase(APITestCase):
                 'reader': self.reader.id,
             },
         }
-        url = '{url}{id}'.format(url=self.url, id=book_to_update.id)
+        url = '{url}{book_id}'.format(url=self.url, book_id=book_to_update.id)
         response = self.client.put(url, upd_data, format='json')
         updated_book = Book.objects.get(id=book_to_update.id)
 
@@ -75,7 +75,7 @@ class BookAPITestCase(APITestCase):
     def test_delete(self):
         book_to_delete = Book.objects.all().first()
         books_count = Book.objects.all().count()
-        url = '{url}{id}'.format(url=self.url, id=book_to_delete.id)
+        url = '{url}{book_id}'.format(url=self.url, book_id=book_to_delete.id)
         response = self.client.delete(url)
 
         self.assertEqual(response.status_code, 204)
@@ -147,7 +147,7 @@ class ReaderAPITestCase(APITestCase):
                 'last_name': self.reader_last_name,
             }
         }
-        url = '{url}{id}'.format(url=self.url, id=reader_to_update.id)
+        url = '{url}{reader_id}'.format(url=self.url, reader_id=reader_to_update.id)
         response = self.client.put(url, upd_data, format='json')
         updated_reader = Reader.objects.get(id=reader_to_update.id)
 
@@ -157,7 +157,7 @@ class ReaderAPITestCase(APITestCase):
     def test_delete(self):
         reader_to_delete = Reader.objects.all().first()
         readers_count = Reader.objects.all().count()
-        url = '{url}{id}'.format(url=self.url, id=reader_to_delete.id)
+        url = '{url}{reader_id}'.format(url=self.url, reader_id=reader_to_delete.id)
         response = self.client.delete(url)
 
         self.assertEqual(response.status_code, 204)
