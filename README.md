@@ -38,3 +38,7 @@ Format - {'reader' : {'first_name': first_name, 'last_name': last_name}}
 ### Example
 
 `curl -X GET --header 'Accept: text/csv' 'http://localhost:8000/api/books/'`
+
+### or
+
+You can use DRF Swagger for requests - `http://localhost:8000/`
